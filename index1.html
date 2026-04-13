@@ -1,0 +1,346 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans, sans-serif); }
+
+.page-title {
+  font-size: 17px; font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+.page-sub {
+  font-size: 13px; color: var(--color-text-secondary); margin-bottom: 20px;
+}
+
+/* Section headers */
+.sec-header {
+  display: flex; align-items: center; gap: 10px;
+  margin: 28px 0 10px;
+}
+.sec-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.sec-title-wrap {}
+.sec-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.sec-sub { font-size: 12px; color: var(--color-text-secondary); }
+
+/* Tables */
+.tbl-wrap { overflow-x: auto; margin-bottom: 8px; }
+table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+  min-width: 540px;
+}
+thead tr {
+  background: var(--color-background-secondary);
+}
+th {
+  padding: 8px 10px; text-align: left;
+  font-weight: 500; font-size: 12px;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border-secondary);
+  white-space: nowrap;
+}
+td {
+  padding: 8px 10px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--color-background-secondary); }
+
+/* Year cell */
+.yr { font-weight: 500; }
+
+/* Value styling */
+.v-good { color: #1D9E75; font-weight: 500; }
+.v-warn { color: #BA7517; font-weight: 500; }
+.v-bad  { color: #E24B4A; font-weight: 500; }
+.v-neu  { color: var(--color-text-primary); }
+.v-proj { color: var(--color-text-secondary); font-style: italic; }
+
+/* Badges */
+.badge {
+  display: inline-block; padding: 2px 7px;
+  border-radius: 10px; font-size: 11px; font-weight: 500;
+}
+.b-green { background: #EAF3DE; color: #27500A; }
+.b-red   { background: #FCEBEB; color: #A32D2D; }
+.b-amber { background: #FAEEDA; color: #633806; }
+.b-blue  { background: #E6F1FB; color: #0C447C; }
+.b-gray  { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+@media (prefers-color-scheme: dark) {
+  .b-green { background: #173404; color: #C0DD97; }
+  .b-red   { background: #501313; color: #F7C1C1; }
+  .b-amber { background: #412402; color: #FAC775; }
+  .b-blue  { background: #042C53; color: #B5D4F4; }
+}
+
+/* Insight box */
+.insight {
+  background: var(--color-background-secondary);
+  border-left: 3px solid var(--color-border-info);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px; margin-top: 10px;
+  font-size: 13px; color: var(--color-text-secondary); line-height: 1.6;
+}
+.insight b { color: var(--color-text-primary); font-weight: 500; }
+
+/* Source note */
+.src { font-size: 11px; color: var(--color-text-secondary); margin-top: 5px; }
+
+/* Divider */
+.divider {
+  border: none; border-top: 0.5px solid var(--color-border-tertiary);
+  margin: 8px 0 0;
+}
+</style>
+
+<div style="padding: 4px 0 24px;">
+
+<p class="page-title">🇹🇭 ထိုင်းနိုင်ငံ — အဓိက စီးပွားရေးဒေတာများ</p>
+<p class="page-sub">အရင်းအမြစ်များ — IMF · Bank of Thailand · OECD · World Bank · UNCTAD (2018–2026)</p>
+
+<!-- ═══════════════════════════════════════════════
+     TABLE 1: TOURISM
+     ═══════════════════════════════════════════════ -->
+<div class="sec-header">
+  <div class="sec-icon" style="background:#E1F5EE;">🏝️</div>
+  <div class="sec-title-wrap">
+    <div class="sec-title">ဇယား ၁ — ท่องเที่ยว (Tourism) ကဏ္ဍ</div>
+    <div class="sec-sub">နိုင်ငံတကာ ခရီးသည် ဆိုက်ရောက်မှုနှင့် ဝင်ငွေ</div>
+  </div>
+</div>
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>နှစ်</th>
+      <th>ခရီးသည် ဆိုက်ရောက် (သန်း)</th>
+      <th>ယမန်နှစ်နှင့် ပြောင်းလဲမှု</th>
+      <th>ကျော်ဖြတ်ငွေ (US$B)</th>
+      <th>GDP % ထဲ ပါဝင်မှု (ခန့်)</th>
+      <th>မှတ်ချက်</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="yr">2018</td><td>38.3</td><td class="v-good">↑ +8.1%</td><td>63.0</td><td class="v-good">~11%</td><td><span class="badge b-green">Peak သို့ ချဉ်းကပ်</span></td></tr>
+    <tr><td class="yr">2019</td><td>39.9</td><td class="v-good">↑ +4.2%</td><td>59.8</td><td class="v-good">~11%</td><td><span class="badge b-green">All-time high</span></td></tr>
+    <tr><td class="yr">2020</td><td>6.7</td><td class="v-bad">↓ −83.2%</td><td>13.4</td><td class="v-bad">~3%</td><td><span class="badge b-red">COVID-19 ကပ်ရောဂါ</span></td></tr>
+    <tr><td class="yr">2021</td><td>0.43</td><td class="v-bad">↓ −93.6%</td><td>3.8</td><td class="v-bad">~0.7%</td><td><span class="badge b-red">နယ်စည်းပိတ် ဆိုင်</span></td></tr>
+    <tr><td class="yr">2022</td><td>9.8</td><td class="v-good">↑ +2,179%</td><td>14.9</td><td class="v-warn">~3%</td><td><span class="badge b-amber">တဖြည်းဖြည်း ပြန်ဖွင့်</span></td></tr>
+    <tr><td class="yr">2023</td><td>28.2</td><td class="v-good">↑ +188%</td><td>29.7</td><td class="v-warn">~6%</td><td><span class="badge b-amber">Recovery နောက်ကျ</span></td></tr>
+    <tr><td class="yr">2024</td><td>35.6</td><td class="v-good">↑ +26.2%</td><td>42.7</td><td class="v-warn">~8%</td><td><span class="badge b-amber">2019 ထက် 11% နိမ့်</span></td></tr>
+    <tr><td class="yr">2025*</td><td>~33</td><td class="v-bad">↓ ~−7%</td><td>~35–38</td><td class="v-bad">~6–7%</td><td><span class="badge b-red">ဘေဘာဘာ ကျဆင်း</span></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="insight">
+  <b>အဓိကအချက်:</b> 2019 ခုနှစ်တွင် ခရီးသည် ၃၉.၉ သန်း peak မှ 2021 တွင် ၄.၃ သိန်းသာ ကျန်ခဲ့သည်။ 2024 တွင် ၃၅.၆ သန်း ပြန်ရောက်ပေမဲ့ 2025 တွင် China ခရီးသည် ကျဆင်းမှုကြောင့် −7% ထပ်ကျ။ <b>Tourism သည် Thailand GDP ၏ estimated 20% ကို ဆောင်ရွက်ပေးနိုင်သည်</b> — ဤ sector ကျဆင်းလျင် ကျန် GDP ကိုပါ ဆွဲချသည်။
+</div>
+<p class="src">အရင်းအမြစ် — TAT / Bank of Thailand · roadgenius.com · worlddata.info · IMF 2026 Article IV</p>
+
+<!-- ═══════════════════════════════════════════════
+     TABLE 2: HOUSEHOLD DEBT
+     ═══════════════════════════════════════════════ -->
+<div class="sec-header" style="margin-top:32px;">
+  <div class="sec-icon" style="background:#FCEBEB;">💳</div>
+  <div class="sec-title-wrap">
+    <div class="sec-title">ဇယား ၂ — Household Debt (အိမ်ထောင်စု ကြွေးမြီ)</div>
+    <div class="sec-sub">GDP ရာခိုင်နှုန်း · NPL (Non-Performing Loans) · ကြွေးမြီ ပမာဏ</div>
+  </div>
+</div>
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>နှစ်</th>
+      <th>Household Debt / GDP %</th>
+      <th>ကြွေးမြီ ပမာဏ (THB Trillion)</th>
+      <th>NPL % (ခန့်)</th>
+      <th>အဆင့် (Asia-Pacific)</th>
+      <th>မှတ်ချက်</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="yr">2018</td><td class="v-warn">77.8%</td><td>12.9</td><td class="v-warn">~2.9%</td><td>3rd</td><td><span class="badge b-amber">မြင့်မားနေ</span></td></tr>
+    <tr><td class="yr">2019</td><td class="v-warn">79.1%</td><td>13.4</td><td class="v-warn">~2.9%</td><td>3rd</td><td><span class="badge b-amber">COVID မတိုင်မီ</span></td></tr>
+    <tr><td class="yr">2020</td><td class="v-bad">89.3%</td><td>14.2</td><td class="v-bad">~3.2%</td><td>2nd</td><td><span class="badge b-red">COVID spike</span></td></tr>
+    <tr><td class="yr">2021</td><td class="v-bad">95.5%</td><td>14.7</td><td class="v-bad">~3.5%</td><td>2nd</td><td><span class="badge b-red">All-time high (Q1)</span></td></tr>
+    <tr><td class="yr">2022</td><td class="v-bad">87.0%</td><td>15.1</td><td class="v-warn">~3.1%</td><td>2nd</td><td><span class="badge b-amber">တဖြည်းဖြည်း ကျ</span></td></tr>
+    <tr><td class="yr">2023</td><td class="v-bad">91.3%</td><td>16.2</td><td class="v-warn">~2.7%</td><td>2nd</td><td><span class="badge b-red">ထပ်မြင့်</span></td></tr>
+    <tr><td class="yr">2024</td><td class="v-bad">~90%</td><td>~16.8</td><td class="v-warn">~2.9%</td><td>2nd</td><td><span class="badge b-red">Informal ပါ = 104%</span></td></tr>
+    <tr><td class="yr">2025 Q2</td><td class="v-warn">86.8%</td><td>~17</td><td class="v-warn">~2.9%</td><td>2nd</td><td><span class="badge b-amber">BoT restructure plan</span></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="insight">
+  <b>ကြွေးမြီ ဘာကြောင့် ဒုက္ခပေး?</b> Household Debt/GDP 80% ကျော်ပါက <b>long-run growth ကို ကန့်သတ်</b>သည်ဟု Bank of Thailand မှ သတ်မှတ်သည်။ 2024 တွင် informal debt ပါ တွက်ရင် 104% ရောက်သည် (Chulalongkorn University study)။ ဤ burden ကြောင့် household တွေ ဝယ်ယူမှု ကျဆင်း → GDP (C) component ထိ။ Asia-Pacific တွင် South Korea (101.7%), Hong Kong (95.9%) ပြီးလျင် <b>Thailand သည် 3rd အမြင့်ဆုံး</b>။
+</div>
+<p class="src">အရင်းအမြစ် — Bank of Thailand · Krungsri Research · NESDC · CEIC Data · Bangkok Post</p>
+
+<!-- ═══════════════════════════════════════════════
+     TABLE 3: INVESTMENT (FDI + Gross Capital Formation)
+     ═══════════════════════════════════════════════ -->
+<div class="sec-header" style="margin-top:32px;">
+  <div class="sec-icon" style="background:#EAF3DE;">🏗️</div>
+  <div class="sec-title-wrap">
+    <div class="sec-title">ဇယား ၃ — Investment (ရင်းနှီးမြုပ်နှံမှု)</div>
+    <div class="sec-sub">FDI net inflows · Gross Capital Formation % of GDP</div>
+  </div>
+</div>
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>နှစ်</th>
+      <th>FDI Net Inflows (US$B)</th>
+      <th>FDI ပြောင်းလဲမှု</th>
+      <th>Gross Capital Formation (% GDP)</th>
+      <th>BOI Applications (US$B)</th>
+      <th>မှတ်ချက်</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="yr">2018</td><td class="v-good">10.0</td><td class="v-good">+normal</td><td class="v-good">24.3%</td><td>~17</td><td><span class="badge b-green">Stable</span></td></tr>
+    <tr><td class="yr">2019</td><td class="v-warn">5.3</td><td class="v-bad">↓ −47%</td><td class="v-good">24.1%</td><td>~15</td><td><span class="badge b-amber">US-China trade war</span></td></tr>
+    <tr><td class="yr">2020</td><td class="v-bad">−4.3</td><td class="v-bad">Negative!</td><td class="v-bad">21.8%</td><td>~13</td><td><span class="badge b-red">COVID outflows</span></td></tr>
+    <tr><td class="yr">2021</td><td class="v-good">15.4</td><td class="v-good">↑ Rebound</td><td class="v-warn">22.4%</td><td>~14</td><td><span class="badge b-green">Strong comeback</span></td></tr>
+    <tr><td class="yr">2022</td><td class="v-warn">10.0</td><td class="v-bad">↓ −31.5%</td><td class="v-warn">27.8%</td><td>~17</td><td><span class="badge b-amber">Above pre-COVID avg</span></td></tr>
+    <tr><td class="yr">2023</td><td class="v-bad">4.5</td><td class="v-bad">↓ −59%</td><td class="v-warn">22.6%</td><td>24</td><td><span class="badge b-red">Record BOI apps</span></td></tr>
+    <tr><td class="yr">2024</td><td class="v-warn">~7–9</td><td class="v-good">↑ Recover</td><td class="v-warn">21.6%</td><td>33</td><td><span class="badge b-blue">Data centres, chips</span></td></tr>
+    <tr><td class="yr">2025</td><td class="v-warn">~6–8</td><td class="v-bad">↓ Uncertain</td><td>~21%</td><td>est. high</td><td><span class="badge b-amber">Tariff uncertainty</span></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="insight">
+  <b>အရေးကြီးသောအချက်:</b> 2023 တွင် FDI net inflows ကျဆင်းပေမဲ့ BOI applications record $24B ရောက်ခဲ့သည်။ 2024 တွင် $33B ဖြင့် ကျော်ဖြတ်ပြီး Google, Foxsemicon ကဲ့သို့ tech companies များ ရင်းနှီးမြုပ်နှံလာ။ ဒါပေမဲ့ US tariffs ကြောင့် <b>private investment (Gross Capital Formation) ကျဆင်းနေ</b> — 2019 ၏ 24% မှ 2024 ၏ 21.6% ဆီ ကျ။
+</div>
+<p class="src">အရင်းအမြစ် — UNCTAD WIR 2024 · Macrotrends · World Bank · Thailand BOI · CELIS Institute</p>
+
+<!-- ═══════════════════════════════════════════════
+     TABLE 4: EXPORTS & TRADE
+     ═══════════════════════════════════════════════ -->
+<div class="sec-header" style="margin-top:32px;">
+  <div class="sec-icon" style="background:#E6F1FB;">📦</div>
+  <div class="sec-title-wrap">
+    <div class="sec-title">ဇယား ၄ — ကုန်သွယ်မှု (Exports & Trade Balance)</div>
+    <div class="sec-sub">ကုန်တင်ပို့မှု · ကုန်တင်သွင်းမှု · Current Account (US$B)</div>
+  </div>
+</div>
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>နှစ်</th>
+      <th>Exports (US$B)</th>
+      <th>Imports (US$B)</th>
+      <th>Trade Balance (US$B)</th>
+      <th>Current Account (US$B)</th>
+      <th>မှတ်ချက်</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="yr">2018</td><td>249.8</td><td>249.5</td><td class="v-warn">+0.3</td><td class="v-good">+28.5</td><td><span class="badge b-green">Balanced</span></td></tr>
+    <tr><td class="yr">2019</td><td>244.8</td><td>236.6</td><td class="v-good">+8.2</td><td class="v-good">+38.3</td><td><span class="badge b-green">Strong surplus</span></td></tr>
+    <tr><td class="yr">2020</td><td>231.1</td><td>202.7</td><td class="v-good">+28.4</td><td class="v-good">+20.7</td><td><span class="badge b-blue">Import ကျ → surplus</span></td></tr>
+    <tr><td class="yr">2021</td><td>270.3</td><td>268.7</td><td class="v-warn">+1.6</td><td class="v-bad">−10.8</td><td><span class="badge b-red">Import rebound</span></td></tr>
+    <tr><td class="yr">2022</td><td>309.6</td><td>316.4</td><td class="v-bad">−6.8</td><td class="v-bad">−17.0</td><td><span class="badge b-red">Energy prices ↑</span></td></tr>
+    <tr><td class="yr">2023</td><td>286.1</td><td>275.6</td><td class="v-good">+10.5</td><td class="v-good">+8.5</td><td><span class="badge b-green">Surplus ပြန်ရ</span></td></tr>
+    <tr><td class="yr">2024</td><td>303.5</td><td>287.9</td><td class="v-good">+15.6</td><td class="v-good">+11.6</td><td><span class="badge b-green">Recovery</span></td></tr>
+    <tr><td class="yr">2025*</td><td>~290–300</td><td>~285–295</td><td class="v-warn">Narrow</td><td class="v-good">+13.5</td><td><span class="badge b-amber">Tariff frontloading</span></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="insight">
+  <b>2025 ၏ Export ကြောင်ဖြစ်ပုံ:</b> Q1/2025 တွင် exports +18% ဖြင့် မြင့်ခဲ့ပေမဲ့ ဒါသည် US tariffs မကျင့်သုံးမီ <b>"frontloading"</b> (ကြိုတင်ပို့ဆောင်မှု) ကြောင့်သာ ဖြစ်သည်။ Inventory ကုန်ဆုံးပြီးနောက် manufacturing တွင် 0.6% သာ ကြီးထွားခဲ့ပြီး H2/2025 တွင် exports ကျဆင်းလာမည်ဟု ခန့်မှန်းထားသည်။
+</div>
+<p class="src">အရင်းအမြစ် — Bank of Thailand BOP Table · IMF Article IV 2026 · Nation Thailand</p>
+
+<!-- ═══════════════════════════════════════════════
+     TABLE 5: PUBLIC DEBT & INFLATION
+     ═══════════════════════════════════════════════ -->
+<div class="sec-header" style="margin-top:32px;">
+  <div class="sec-icon" style="background:#FAEEDA;">📊</div>
+  <div class="sec-title-wrap">
+    <div class="sec-title">ဇယား ၅ — Public Debt နှင့် Inflation</div>
+    <div class="sec-sub">အစိုးရ ကြွေးမြီ (% GDP) · CPI Headline Inflation · Policy Rate</div>
+  </div>
+</div>
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>နှစ်</th>
+      <th>Public Debt (% GDP)</th>
+      <th>ပြောင်းလဲမှု</th>
+      <th>Headline CPI % (avg)</th>
+      <th>Policy Rate (year-end %)</th>
+      <th>မှတ်ချက်</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="yr">2018</td><td class="v-good">41.8%</td><td>Stable</td><td class="v-good">1.1%</td><td>1.75%</td><td><span class="badge b-green">Comfortable</span></td></tr>
+    <tr><td class="yr">2019</td><td class="v-good">41.1%</td><td>Stable</td><td class="v-good">0.7%</td><td>1.25%</td><td><span class="badge b-green">Low inflation</span></td></tr>
+    <tr><td class="yr">2020</td><td class="v-warn">49.4%</td><td class="v-bad">↑ +8.3pp</td><td class="v-warn">−0.8%</td><td>0.50%</td><td><span class="badge b-red">COVID stimulus</span></td></tr>
+    <tr><td class="yr">2021</td><td class="v-bad">58.3%</td><td class="v-bad">↑ +8.9pp</td><td class="v-warn">1.2%</td><td>0.50%</td><td><span class="badge b-red">Spending surge</span></td></tr>
+    <tr><td class="yr">2022</td><td class="v-bad">60.5%</td><td class="v-bad">↑ +2.2pp</td><td class="v-bad">6.1%</td><td>1.25%</td><td><span class="badge b-red">Inflation peak</span></td></tr>
+    <tr><td class="yr">2023</td><td class="v-bad">62.3%</td><td class="v-bad">↑ +1.8pp</td><td class="v-warn">1.2%</td><td>2.50%</td><td><span class="badge b-amber">Rate hike cycle</span></td></tr>
+    <tr><td class="yr">2024</td><td class="v-bad">63.2%</td><td class="v-bad">↑ +0.9pp</td><td class="v-good">0.4%</td><td>2.50%</td><td><span class="badge b-amber">Deflation risk</span></td></tr>
+    <tr><td class="yr">2025*</td><td class="v-bad">64.8%</td><td class="v-bad">↑ +1.6pp</td><td class="v-warn">−0.1%</td><td>1.00%</td><td><span class="badge b-red">Rate cuts 4 ကြိမ်</span></td></tr>
+    <tr><td class="yr">2026*</td><td class="v-bad">66.8%</td><td class="v-bad">↑ +2pp</td><td class="v-warn">0.4%</td><td>~0.75–1%</td><td><span class="badge b-red">Debt ↑ ဆက်ကျ</span></td></tr>
+  </tbody>
+</table>
+</div>
+<div class="insight">
+  <b>Public Debt အန္တရာယ်:</b> 2018 ခုနှစ်တွင် 41.8% ရှိသော public debt သည် 2025 တွင် 64.8% ဆီ ရောက်လာ — COVID stimulus + ကြီးထွားမှု နှေးကွေးမှုကြောင့်။ IMF modeling အရ <b>80% limit ကျော်ပါက "explosive path" ဖြစ်နိုင်</b>ဟု သတိပေးထားသည်။ Bank of Thailand policy rate ကို 2024 Oct မှ 2026 Feb ထိ 2.5% → 1.0% ဆင်းကြိုးပမ်းခဲ့သည်။
+</div>
+<p class="src">အရင်းအမြစ် — IMF Article IV (Feb 2026) · OECD Thailand 2025 · Bank of Thailand</p>
+
+<!-- ═══════════════════════════════════════════════
+     TABLE 6: GDP COMPONENTS SUMMARY
+     ═══════════════════════════════════════════════ -->
+<div class="sec-header" style="margin-top:32px;">
+  <div class="sec-icon" style="background:#EEEDFE;">🔢</div>
+  <div class="sec-title-wrap">
+    <div class="sec-title">ဇယား ၆ — GDP ပေါင်းချုပ် (C + I + G + NX)</div>
+    <div class="sec-sub">GDP component growth contributions — IMF / NESDC မှ</div>
+  </div>
+</div>
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>နှစ်</th>
+      <th>Real GDP Growth %</th>
+      <th>Private Consumption (C)</th>
+      <th>Gov. Spending (G)</th>
+      <th>Investment (I) signal</th>
+      <th>Nominal GDP (US$B)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="yr">2019</td><td class="v-warn">2.1%</td><td class="v-good">Positive</td><td class="v-good">+ve</td><td class="v-good">Stable</td><td>544.0</td></tr>
+    <tr><td class="yr">2020</td><td class="v-bad">−6.1%</td><td class="v-bad">Collapse</td><td class="v-good">Expanded</td><td class="v-bad">Negative FDI</td><td>500.5</td></tr>
+    <tr><td class="yr">2021</td><td class="v-warn">1.5%</td><td class="v-warn">Weak</td><td class="v-good">+ve</td><td class="v-good">FDI rebound</td><td>506.3</td></tr>
+    <tr><td class="yr">2022</td><td class="v-warn">2.6%</td><td class="v-good">Recovery</td><td class="v-warn">Mixed</td><td class="v-warn">FDI ↓ 31%</td><td>495.6</td></tr>
+    <tr><td class="yr">2023</td><td class="v-warn">2.0%</td><td class="v-warn">Moderate</td><td class="v-warn">Budget delay</td><td class="v-bad">FDI ↓ 59%</td><td>515.0</td></tr>
+    <tr><td class="yr">2024</td><td class="v-warn">2.5%</td><td class="v-good">+2.5% contrib</td><td class="v-good">+ve</td><td class="v-warn">Shrinking pvt</td><td>527.1</td></tr>
+    <tr><td class="yr">2025*</td><td class="v-warn">2.1%</td><td class="v-bad">+1.5% (drop)</td><td class="v-good">+ve</td><td class="v-bad">Pvt inv shrink</td><td>553.9</td></tr>
+    <tr><td class="yr">2026*</td><td class="v-bad">1.6%</td><td class="v-bad">Weak</td><td class="v-warn">Constrained</td><td class="v-bad">Uncertain</td><td>580.2</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="insight">
+  <b>2024-2025 ၏ Critical Pattern:</b> Private consumption သည် 2024 GDP growth ၏ ၁၀၀% နီးပါး ဆောင်ရွက်ခဲ့သည် (2.5% growth မှ consumption contribution 2.5pp)။ 2025 တွင် ဤ contribution 1.5pp ဆီ ကျ — tourism ကျဆင်းမှုနှင့် household debt burden ကြောင့်။ Private investment ဆက်လက် ကျဆင်းနေပြီး <b>Thailand "last growth engine" ဆုံးရှုံးနေသည်</b>ဟု Bangkok Post ညွှန်းဆို။
+</div>
+<p class="src">အရင်းအမြစ် — IMF Article IV 2026 · NESDC · OECD Economic Survey Thailand 2025 · Bangkok Post</p>
+
+<hr class="divider" style="margin-top:28px; margin-bottom:12px;">
+<p style="font-size:12px; color:var(--color-text-secondary); line-height:1.7;">
+  <b>မှတ်ချက်များ:</b> * သတ်မှတ်ချက်များသည် IMF/OECD/World Bank projection ဖြစ်ပြီး realized history မဟုတ်ပါ။ 2025 data တချို့ preliminary estimate ဖြစ်သည်။ FDI figures are World Bank/UNCTAD net inflows (equity flows)। BOI applications figures are promotional value (gross), actual inflows နှင့် ကွာနိုင်သည်။
+</p>
+
+</div>
