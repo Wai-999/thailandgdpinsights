@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDP Component Deep Drilldown — Thailand vs Vietnam</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #73726c;
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f1efe8;
+    --color-border-tertiary: rgba(0,0,0,0.12);
+    --color-border-secondary: rgba(0,0,0,0.22);
+    --color-border-info: #185FA5;
+    --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-myanmar: 'Noto Sans Myanmar', sans-serif;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-text-primary: #e8e6e0;
+      --color-text-secondary: #9c9a92;
+      --color-background-primary: #1e1e1c;
+      --color-background-secondary: #2a2a28;
+      --color-border-tertiary: rgba(255,255,255,0.10);
+      --color-border-secondary: rgba(255,255,255,0.20);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    background: var(--color-background-primary);
+    padding: 24px;
+    max-width: 920px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* ── PART 1: DRILLDOWN DASHBOARD ── */
+  h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+  .page-sub { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 18px; }
+  .yr-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+  .yr-btn{padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s}
+  .yr-btn.active{background:#185FA5;color:#fff;border-color:transparent;font-weight:500}
+  .comp-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+  .comp-tab{padding:6px 14px;border-radius:8px;font-size:12px;cursor:pointer;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);transition:all .15s;font-weight:500}
+  .comp-tab.active{color:#fff;border-color:transparent}
+  .comp-tab[data-c="C"].active{background:#185FA5}
+  .comp-tab[data-c="I"].active{background:#1D9E75}
+  .comp-tab[data-c="G"].active{background:#EF9F27;color:#412402}
+  .comp-tab[data-c="NX"].active{background:#D85A30}
+  .comp-tab[data-c="ALL"].active{background:#534AB7}
+  .panel{display:none}.panel.active{display:block}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr}}
+  .card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:12px}
+  .card-h{font-size:12px;font-weight:500;margin-bottom:2px}
+  .card-s{font-size:10.5px;color:var(--color-text-secondary);margin-bottom:10px}
+  .pie-h{position:relative;height:200px}
+  .bar-h{position:relative;height:200px}
+  .leg{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;margin-top:8px}
+  .li{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--color-text-secondary)}
+  .lsq{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px}
+  @media(max-width:500px){.stat-row{grid-template-columns:repeat(2,1fr)}}
+  .sc{background:var(--color-background-secondary);border-radius:8px;padding:8px 10px}
+  .sl{font-size:10px;color:var(--color-text-secondary);margin-bottom:2px}
+  .sv{font-size:16px;font-weight:500}
+  .ss{font-size:10px;color:var(--color-text-secondary);margin-top:1px}
+  .insight{background:var(--color-background-secondary);border-left:3px solid var(--color-border-info);border-radius:0 8px 8px 0;padding:9px 13px;margin:8px 0;font-size:12px;color:var(--color-text-secondary);line-height:1.65}
+  .insight b{color:var(--color-text-primary);font-weight:500}
+  .note{font-size:10px;color:var(--color-text-secondary);margin-top:5px}
+  .full-h{position:relative;height:240px}
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--color-border-tertiary);
+    margin: 48px 0 40px;
+  }
+
+  /* ── PART 2: MACRO DATA TABLES ── */
+  .macro-header { margin-bottom: 24px; }
+  .macro-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 5px;
+    font-family: var(--font-myanmar);
+    letter-spacing: 0.01em;
+  }
+  .macro-title-flag { font-size: 20px; margin-right: 6px; }
+  .macro-sub {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    font-family: var(--font-myanmar);
+  }
+
+  .section-block { margin-bottom: 36px; }
+
+  .sec-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .sec-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .sec-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    font-family: var(--font-myanmar);
+    margin-bottom: 2px;
+  }
+  .sec-sub {
+    font-size: 11.5px;
+    color: var(--color-text-secondary);
+    font-family: var(--font-myanmar);
+  }
+
+  /* Table styles */
+  .tbl-wrap { overflow-x: auto; margin-bottom: 10px; border-radius: 10px; border: 0.5px solid var(--color-border-tertiary); }
+  table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    min-width: 560px;
+    font-family: var(--font-myanmar);
+  }
+  thead tr { background: var(--color-background-secondary); }
+  th {
+    padding: 9px 11px; text-align: left;
+    font-weight: 500; font-size: 11px;
+    color: var(--color-text-secondary);
+    border-bottom: 0.5px solid var(--color-border-secondary);
+    white-space: nowrap;
+  }
+  td {
+    padding: 8px 11px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--color-background-secondary); transition: background 0.12s; }
+  .yr { font-weight: 500; color: var(--color-text-secondary); font-size: 12px; }
+
+  /* Value colors */
+  .v-good { color: #1D9E75; font-weight: 500; }
+  .v-warn { color: #BA7517; font-weight: 500; }
+  .v-bad  { color: #E24B4A; font-weight: 500; }
+  .v-proj { color: var(--color-text-secondary); font-style: italic; }
+
+  /* Badges */
+  .badge {
+    display: inline-block; padding: 2px 8px;
+    border-radius: 12px; font-size: 10.5px; font-weight: 500;
+    white-space: nowrap;
+  }
+  .b-green { background: #EAF3DE; color: #27500A; }
+  .b-red   { background: #FCEBEB; color: #A32D2D; }
+  .b-amber { background: #FAEEDA; color: #633806; }
+  .b-blue  { background: #E6F1FB; color: #0C447C; }
+  .b-gray  { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+  @media (prefers-color-scheme: dark) {
+    .b-green { background: #173404; color: #C0DD97; }
+    .b-red   { background: #501313; color: #F7C1C1; }
+    .b-amber { background: #412402; color: #FAC775; }
+    .b-blue  { background: #042C53; color: #B5D4F4; }
+  }
+
+  /* Insight box */
+  .macro-insight {
+    background: var(--color-background-secondary);
+    border-left: 3px solid var(--color-border-info);
+    border-radius: 0 8px 8px 0;
+    padding: 11px 15px;
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    font-family: var(--font-myanmar);
+  }
+  .macro-insight b { color: var(--color-text-primary); font-weight: 600; }
+
+  .src {
+    font-size: 10.5px;
+    color: var(--color-text-secondary);
+    margin-top: 6px;
+    font-family: var(--font-myanmar);
+  }
+
+  .final-note {
+    font-size: 11.5px;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    border-top: 0.5px solid var(--color-border-tertiary);
+    padding-top: 16px;
+    margin-top: 16px;
+    font-family: var(--font-myanmar);
+  }
+  .final-note b { color: var(--color-text-primary); }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     PART 1 — GDP DRILLDOWN DASHBOARD
+     ════════════════════════════════════════ -->
+<h1>GDP Component Deep Drilldown</h1>
+<p class="page-sub">Thailand vs Vietnam — Consumption · Investment · Government · Net Exports breakdown (2018–2026)</p>
+<div class="yr-row" id="yrRow"></div>
+<div class="comp-tabs">
+  <button class="comp-tab active" data-c="ALL" onclick="setComp('ALL',this)">Overview</button>
+  <button class="comp-tab" data-c="C" onclick="setComp('C',this)">Consumption (C)</button>
+  <button class="comp-tab" data-c="I" onclick="setComp('I',this)">Investment (I)</button>
+  <button class="comp-tab" data-c="G" onclick="setComp('G',this)">Gov. Spending (G)</button>
+  <button class="comp-tab" data-c="NX" onclick="setComp('NX',this)">Net Exports (NX)</button>
+</div>
+
+<div id="pALL" class="panel active">
+  <div class="stat-row" id="statALL"></div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-h" style="color:#185FA5">Thailand — GDP distribution</div>
+      <div class="card-s" id="thSub"></div>
+      <div class="pie-h"><canvas id="pieTH2" role="img" aria-label="Donut chart of Thailand GDP component shares"></canvas></div>
+      <div class="leg" id="legTH"></div>
+    </div>
+    <div class="card">
+      <div class="card-h" style="color:#1D7874">Vietnam — GDP distribution</div>
+      <div class="card-s" id="vnSub"></div>
+      <div class="pie-h"><canvas id="pieVN2" role="img" aria-label="Donut chart of Vietnam GDP component shares"></canvas></div>
+      <div class="leg" id="legVN"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:10px">
+    <div class="card-h" style="margin-bottom:8px">Side-by-side component comparison (%)</div>
+    <div class="full-h"><canvas id="barComp" role="img" aria-label="Grouped bar chart comparing GDP components between Thailand and Vietnam"></canvas></div>
+  </div>
+  <p class="note">Sources: World Bank National Accounts, IMF WEO, NESDC Thailand, GSO Vietnam. * 2025–26 projection.</p>
+</div>
+
+<div id="pC" class="panel">
+  <div class="stat-row" id="statC"></div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-h" style="color:#185FA5">Thailand — Consumption breakdown</div>
+      <div class="card-s">Share of total Consumption spending</div>
+      <div class="pie-h"><canvas id="pieTHC" role="img" aria-label="Pie chart of Thailand consumption breakdown"></canvas></div>
+      <div class="leg" id="legTHC"></div>
+    </div>
+    <div class="card">
+      <div class="card-h" style="color:#1D7874">Vietnam — Consumption breakdown</div>
+      <div class="card-s">Share of total Consumption spending</div>
+      <div class="pie-h"><canvas id="pieVNC" role="img" aria-label="Pie chart of Vietnam consumption breakdown"></canvas></div>
+      <div class="leg" id="legVNC"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h" style="margin-bottom:8px">Consumption sub-components as % of GDP</div>
+    <div class="full-h"><canvas id="barC" role="img" aria-label="Bar chart of consumption sub-components as percent of GDP"></canvas></div>
+  </div>
+  <div class="insight" id="insightC"></div>
+</div>
+
+<div id="pI" class="panel">
+  <div class="stat-row" id="statI"></div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-h" style="color:#185FA5">Thailand — Investment breakdown</div>
+      <div class="card-s">Share of total Investment (GFCF + Inventories)</div>
+      <div class="pie-h"><canvas id="pieTHI" role="img" aria-label="Pie chart of Thailand investment breakdown"></canvas></div>
+      <div class="leg" id="legTHI"></div>
+    </div>
+    <div class="card">
+      <div class="card-h" style="color:#1D7874">Vietnam — Investment breakdown</div>
+      <div class="card-s">Share of total Investment (GFCF + Inventories)</div>
+      <div class="pie-h"><canvas id="pieVNI" role="img" aria-label="Pie chart of Vietnam investment breakdown"></canvas></div>
+      <div class="leg" id="legVNI"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h" style="margin-bottom:8px">Investment sub-components as % of GDP</div>
+    <div class="full-h"><canvas id="barI" role="img" aria-label="Bar chart of investment sub-components as percent of GDP"></canvas></div>
+  </div>
+  <div class="insight" id="insightI"></div>
+</div>
+
+<div id="pG" class="panel">
+  <div class="stat-row" id="statG"></div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-h" style="color:#185FA5">Thailand — Gov. spending breakdown</div>
+      <div class="card-s">Share of total Government Expenditure</div>
+      <div class="pie-h"><canvas id="pieTHG" role="img" aria-label="Pie chart of Thailand government spending breakdown"></canvas></div>
+      <div class="leg" id="legTHG"></div>
+    </div>
+    <div class="card">
+      <div class="card-h" style="color:#1D7874">Vietnam — Gov. spending breakdown</div>
+      <div class="card-s">Share of total Government Expenditure</div>
+      <div class="pie-h"><canvas id="pieVNG" role="img" aria-label="Pie chart of Vietnam government spending breakdown"></canvas></div>
+      <div class="leg" id="legVNG"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h" style="margin-bottom:8px">Gov. spending sub-components as % of GDP</div>
+    <div class="full-h"><canvas id="barG" role="img" aria-label="Bar chart of government spending sub-components as percent of GDP"></canvas></div>
+  </div>
+  <div class="insight" id="insightG"></div>
+</div>
+
+<div id="pNX" class="panel">
+  <div class="stat-row" id="statNX"></div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-h" style="color:#185FA5">Thailand — Trade breakdown</div>
+      <div class="card-s">Goods vs Services exports & imports as % GDP</div>
+      <div class="pie-h"><canvas id="pieTHNX" role="img" aria-label="Pie chart of Thailand trade breakdown"></canvas></div>
+      <div class="leg" id="legTHNX"></div>
+    </div>
+    <div class="card">
+      <div class="card-h" style="color:#1D7874">Vietnam — Trade breakdown</div>
+      <div class="card-s">Goods vs Services exports & imports as % GDP</div>
+      <div class="pie-h"><canvas id="pieVNNX" role="img" aria-label="Pie chart of Vietnam trade breakdown"></canvas></div>
+      <div class="leg" id="legVNNX"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h" style="margin-bottom:8px">Export/Import components as % of GDP</div>
+    <div class="full-h"><canvas id="barNX" role="img" aria-label="Bar chart of trade sub-components as percent of GDP"></canvas></div>
+  </div>
+  <div class="insight" id="insightNX"></div>
+</div>
+
+<!-- ════════════════════════════════════════
+     DIVIDER
+     ════════════════════════════════════════ -->
+<hr class="section-divider">
+
+<!-- ════════════════════════════════════════
+     PART 2 — THAILAND MACRO DATA TABLES
+     ════════════════════════════════════════ -->
+<div class="macro-header">
+  <div class="macro-title"><span class="macro-title-flag">🇹🇭</span>ထိုင်းနိုင်ငံ — အဓိက စီးပွားရေးဒေတာများ</div>
+  <div class="macro-sub">အရင်းအမြစ်များ — IMF · Bank of Thailand · OECD · World Bank · UNCTAD (2018–2026)</div>
+</div>
+
+<!-- TABLE 1: TOURISM -->
+<div class="section-block">
+  <div class="sec-header">
+    <div class="sec-icon" style="background:#E1F5EE;">🏝️</div>
+    <div>
+      <div class="sec-title">ဇယား ၁ — Tourism ကဏ္ဍ</div>
+      <div class="sec-sub">နိုင်ငံတကာ ခရီးသည် ဆိုက်ရောက်မှုနှင့် ဝင်ငွေ</div>
+    </div>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>နှစ်</th>
+          <th>ခရီးသည် ဆိုက်ရောက် (သန်း)</th>
+          <th>ယမန်နှစ်နှင့် ပြောင်းလဲမှု</th>
+          <th>ကျော်ဖြတ်ငွေ (US$B)</th>
+          <th>GDP % ထဲ ပါဝင်မှု (ခန့်)</th>
+          <th>မှတ်ချက်</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="yr">2018</td><td>38.3</td><td class="v-good">↑ +8.1%</td><td>63.0</td><td class="v-good">~11%</td><td><span class="badge b-green">Peak သို့ ချဉ်းကပ်</span></td></tr>
+        <tr><td class="yr">2019</td><td>39.9</td><td class="v-good">↑ +4.2%</td><td>59.8</td><td class="v-good">~11%</td><td><span class="badge b-green">All-time high</span></td></tr>
+        <tr><td class="yr">2020</td><td>6.7</td><td class="v-bad">↓ −83.2%</td><td>13.4</td><td class="v-bad">~3%</td><td><span class="badge b-red">COVID-19 ကပ်ရောဂါ</span></td></tr>
+        <tr><td class="yr">2021</td><td>0.43</td><td class="v-bad">↓ −93.6%</td><td>3.8</td><td class="v-bad">~0.7%</td><td><span class="badge b-red">နယ်စည်းပိတ် ဆိုင်</span></td></tr>
+        <tr><td class="yr">2022</td><td>9.8</td><td class="v-good">↑ +2,179%</td><td>14.9</td><td class="v-warn">~3%</td><td><span class="badge b-amber">တဖြည်းဖြည်း ပြန်ဖွင့်</span></td></tr>
+        <tr><td class="yr">2023</td><td>28.2</td><td class="v-good">↑ +188%</td><td>29.7</td><td class="v-warn">~6%</td><td><span class="badge b-amber">Recovery နောက်ကျ</span></td></tr>
+        <tr><td class="yr">2024</td><td>35.6</td><td class="v-good">↑ +26.2%</td><td>42.7</td><td class="v-warn">~8%</td><td><span class="badge b-amber">2019 ထက် 11% နိမ့်</span></td></tr>
+        <tr><td class="yr">2025*</td><td>~33</td><td class="v-bad">↓ ~−7%</td><td>~35–38</td><td class="v-bad">~6–7%</td><td><span class="badge b-red">ဘေဘာဘာ ကျဆင်း</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="macro-insight">
+    <b>အဓိကအချက်:</b> 2019 ခုနှစ်တွင် ခရီးသည် ၃၉.၉ သန်း peak မှ 2021 တွင် ၄.၃ သိန်းသာ ကျန်ခဲ့သည်။ 2024 တွင် ၃၅.၆ သန်း ပြန်ရောက်ပေမဲ့ 2025 တွင် China ခရီးသည် ကျဆင်းမှုကြောင့် −7% ထပ်ကျ။ <b>Tourism သည် Thailand GDP ၏ estimated 20% ကို ဆောင်ရွက်ပေးနိုင်သည်</b> — ဤ sector ကျဆင်းလျင် ကျန် GDP ကိုပါ ဆွဲချသည်။
+  </div>
+  <p class="src">အရင်းအမြစ် — TAT / Bank of Thailand · roadgenius.com · worlddata.info · IMF 2026 Article IV</p>
+</div>
+
+<!-- TABLE 2: HOUSEHOLD DEBT -->
+<div class="section-block">
+  <div class="sec-header">
+    <div class="sec-icon" style="background:#FCEBEB;">💳</div>
+    <div>
+      <div class="sec-title">ဇယား ၂ — Household Debt (အိမ်ထောင်စု ကြွေးမြီ)</div>
+      <div class="sec-sub">GDP ရာခိုင်နှုန်း · NPL (Non-Performing Loans) · ကြွေးမြီ ပမာဏ</div>
+    </div>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>နှစ်</th>
+          <th>Household Debt / GDP %</th>
+          <th>ကြွေးမြီ ပမာဏ (THB Trillion)</th>
+          <th>NPL % (ခန့်)</th>
+          <th>အဆင့် (Asia-Pacific)</th>
+          <th>မှတ်ချက်</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="yr">2018</td><td class="v-warn">77.8%</td><td>12.9</td><td class="v-warn">~2.9%</td><td>3rd</td><td><span class="badge b-amber">မြင့်မားနေ</span></td></tr>
+        <tr><td class="yr">2019</td><td class="v-warn">79.1%</td><td>13.4</td><td class="v-warn">~2.9%</td><td>3rd</td><td><span class="badge b-amber">COVID မတိုင်မီ</span></td></tr>
+        <tr><td class="yr">2020</td><td class="v-bad">89.3%</td><td>14.2</td><td class="v-bad">~3.2%</td><td>2nd</td><td><span class="badge b-red">COVID spike</span></td></tr>
+        <tr><td class="yr">2021</td><td class="v-bad">95.5%</td><td>14.7</td><td class="v-bad">~3.5%</td><td>2nd</td><td><span class="badge b-red">All-time high (Q1)</span></td></tr>
+        <tr><td class="yr">2022</td><td class="v-bad">87.0%</td><td>15.1</td><td class="v-warn">~3.1%</td><td>2nd</td><td><span class="badge b-amber">တဖြည်းဖြည်း ကျ</span></td></tr>
+        <tr><td class="yr">2023</td><td class="v-bad">91.3%</td><td>16.2</td><td class="v-warn">~2.7%</td><td>2nd</td><td><span class="badge b-red">ထပ်မြင့်</span></td></tr>
+        <tr><td class="yr">2024</td><td class="v-bad">~90%</td><td>~16.8</td><td class="v-warn">~2.9%</td><td>2nd</td><td><span class="badge b-red">Informal ပါ = 104%</span></td></tr>
+        <tr><td class="yr">2025 Q2</td><td class="v-warn">86.8%</td><td>~17</td><td class="v-warn">~2.9%</td><td>2nd</td><td><span class="badge b-amber">BoT restructure plan</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="macro-insight">
+    <b>ကြွေးမြီ ဘာကြောင့် ဒုက္ခပေး?</b> Household Debt/GDP 80% ကျော်ပါက <b>long-run growth ကို ကန့်သတ်</b>သည်ဟု Bank of Thailand မှ သတ်မှတ်သည်။ 2024 တွင် informal debt ပါ တွက်ရင် 104% ရောက်သည် (Chulalongkorn University study)။ ဤ burden ကြောင့် household တွေ ဝယ်ယူမှု ကျဆင်း → GDP (C) component ထိ။ Asia-Pacific တွင် South Korea (101.7%), Hong Kong (95.9%) ပြီးလျင် <b>Thailand သည် 3rd အမြင့်ဆုံး</b>။
+  </div>
+  <p class="src">အရင်းအမြစ် — Bank of Thailand · Krungsri Research · NESDC · CEIC Data · Bangkok Post</p>
+</div>
+
+<!-- TABLE 3: INVESTMENT -->
+<div class="section-block">
+  <div class="sec-header">
+    <div class="sec-icon" style="background:#EAF3DE;">🏗️</div>
+    <div>
+      <div class="sec-title">ဇယား ၃ — Investment (ရင်းနှီးမြုပ်နှံမှု)</div>
+      <div class="sec-sub">FDI net inflows · Gross Capital Formation % of GDP</div>
+    </div>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>နှစ်</th>
+          <th>FDI Net Inflows (US$B)</th>
+          <th>FDI ပြောင်းလဲမှု</th>
+          <th>Gross Capital Formation (% GDP)</th>
+          <th>BOI Applications (US$B)</th>
+          <th>မှတ်ချက်</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="yr">2018</td><td class="v-good">10.0</td><td class="v-good">+normal</td><td class="v-good">24.3%</td><td>~17</td><td><span class="badge b-green">Stable</span></td></tr>
+        <tr><td class="yr">2019</td><td class="v-warn">5.3</td><td class="v-bad">↓ −47%</td><td class="v-good">24.1%</td><td>~15</td><td><span class="badge b-amber">US-China trade war</span></td></tr>
+        <tr><td class="yr">2020</td><td class="v-bad">−4.3</td><td class="v-bad">Negative!</td><td class="v-bad">21.8%</td><td>~13</td><td><span class="badge b-red">COVID outflows</span></td></tr>
+        <tr><td class="yr">2021</td><td class="v-good">15.4</td><td class="v-good">↑ Rebound</td><td class="v-warn">22.4%</td><td>~14</td><td><span class="badge b-green">Strong comeback</span></td></tr>
+        <tr><td class="yr">2022</td><td class="v-warn">10.0</td><td class="v-bad">↓ −31.5%</td><td class="v-warn">27.8%</td><td>~17</td><td><span class="badge b-amber">Above pre-COVID avg</span></td></tr>
+        <tr><td class="yr">2023</td><td class="v-bad">4.5</td><td class="v-bad">↓ −59%</td><td class="v-warn">22.6%</td><td>24</td><td><span class="badge b-red">Record BOI apps</span></td></tr>
+        <tr><td class="yr">2024</td><td class="v-warn">~7–9</td><td class="v-good">↑ Recover</td><td class="v-warn">21.6%</td><td>33</td><td><span class="badge b-blue">Data centres, chips</span></td></tr>
+        <tr><td class="yr">2025</td><td class="v-warn">~6–8</td><td class="v-bad">↓ Uncertain</td><td>~21%</td><td>est. high</td><td><span class="badge b-amber">Tariff uncertainty</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="macro-insight">
+    <b>အရေးကြီးသောအချက်:</b> 2023 တွင် FDI net inflows ကျဆင်းပေမဲ့ BOI applications record $24B ရောက်ခဲ့သည်။ 2024 တွင် $33B ဖြင့် ကျော်ဖြတ်ပြီး Google, Foxsemicon ကဲ့သို့ tech companies များ ရင်းနှီးမြုပ်နှံလာ။ ဒါပေမဲ့ US tariffs ကြောင့် <b>private investment (Gross Capital Formation) ကျဆင်းနေ</b> — 2019 ၏ 24% မှ 2024 ၏ 21.6% ဆီ ကျ။
+  </div>
+  <p class="src">အရင်းအမြစ် — UNCTAD WIR 2024 · Macrotrends · World Bank · Thailand BOI · CELIS Institute</p>
+</div>
+
+<!-- TABLE 4: EXPORTS & TRADE -->
+<div class="section-block">
+  <div class="sec-header">
+    <div class="sec-icon" style="background:#E6F1FB;">📦</div>
+    <div>
+      <div class="sec-title">ဇယား ၄ — ကုန်သွယ်မှု (Exports & Trade Balance)</div>
+      <div class="sec-sub">ကုန်တင်ပို့မှု · ကုန်တင်သွင်းမှု · Current Account (US$B)</div>
+    </div>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>နှစ်</th>
+          <th>Exports (US$B)</th>
+          <th>Imports (US$B)</th>
+          <th>Trade Balance (US$B)</th>
+          <th>Current Account (US$B)</th>
+          <th>မှတ်ချက်</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="yr">2018</td><td>249.8</td><td>249.5</td><td class="v-warn">+0.3</td><td class="v-good">+28.5</td><td><span class="badge b-green">Balanced</span></td></tr>
+        <tr><td class="yr">2019</td><td>244.8</td><td>236.6</td><td class="v-good">+8.2</td><td class="v-good">+38.3</td><td><span class="badge b-green">Strong surplus</span></td></tr>
+        <tr><td class="yr">2020</td><td>231.1</td><td>202.7</td><td class="v-good">+28.4</td><td class="v-good">+20.7</td><td><span class="badge b-blue">Import ကျ → surplus</span></td></tr>
+        <tr><td class="yr">2021</td><td>270.3</td><td>268.7</td><td class="v-warn">+1.6</td><td class="v-bad">−10.8</td><td><span class="badge b-red">Import rebound</span></td></tr>
+        <tr><td class="yr">2022</td><td>309.6</td><td>316.4</td><td class="v-bad">−6.8</td><td class="v-bad">−17.0</td><td><span class="badge b-red">Energy prices ↑</span></td></tr>
+        <tr><td class="yr">2023</td><td>286.1</td><td>275.6</td><td class="v-good">+10.5</td><td class="v-good">+8.5</td><td><span class="badge b-green">Surplus ပြန်ရ</span></td></tr>
+        <tr><td class="yr">2024</td><td>303.5</td><td>287.9</td><td class="v-good">+15.6</td><td class="v-good">+11.6</td><td><span class="badge b-green">Recovery</span></td></tr>
+        <tr><td class="yr">2025*</td><td>~290–300</td><td>~285–295</td><td class="v-warn">Narrow</td><td class="v-good">+13.5</td><td><span class="badge b-amber">Tariff frontloading</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="macro-insight">
+    <b>2025 ၏ Export ကြောင်ဖြစ်ပုံ:</b> Q1/2025 တွင် exports +18% ဖြင့် မြင့်ခဲ့ပေမဲ့ ဒါသည် US tariffs မကျင့်သုံးမီ <b>"frontloading"</b> (ကြိုတင်ပို့ဆောင်မှု) ကြောင့်သာ ဖြစ်သည်။ Inventory ကုန်ဆုံးပြီးနောက် manufacturing တွင် 0.6% သာ ကြီးထွားခဲ့ပြီး H2/2025 တွင် exports ကျဆင်းလာမည်ဟု ခန့်မှန်းထားသည်။
+  </div>
+  <p class="src">အရင်းအမြစ် — Bank of Thailand BOP Table · IMF Article IV 2026 · Nation Thailand</p>
+</div>
+
+<!-- TABLE 5: PUBLIC DEBT & INFLATION -->
+<div class="section-block">
+  <div class="sec-header">
+    <div class="sec-icon" style="background:#FAEEDA;">📊</div>
+    <div>
+      <div class="sec-title">ဇယား ၅ — Public Debt နှင့် Inflation</div>
+      <div class="sec-sub">အစိုးရ ကြွေးမြီ (% GDP) · CPI Headline Inflation · Policy Rate</div>
+    </div>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>နှစ်</th>
+          <th>Public Debt (% GDP)</th>
+          <th>ပြောင်းလဲမှု</th>
+          <th>Headline CPI % (avg)</th>
+          <th>Policy Rate (year-end %)</th>
+          <th>မှတ်ချက်</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="yr">2018</td><td class="v-good">41.8%</td><td>Stable</td><td class="v-good">1.1%</td><td>1.75%</td><td><span class="badge b-green">Comfortable</span></td></tr>
+        <tr><td class="yr">2019</td><td class="v-good">41.1%</td><td>Stable</td><td class="v-good">0.7%</td><td>1.25%</td><td><span class="badge b-green">Low inflation</span></td></tr>
+        <tr><td class="yr">2020</td><td class="v-warn">49.4%</td><td class="v-bad">↑ +8.3pp</td><td class="v-warn">−0.8%</td><td>0.50%</td><td><span class="badge b-red">COVID stimulus</span></td></tr>
+        <tr><td class="yr">2021</td><td class="v-bad">58.3%</td><td class="v-bad">↑ +8.9pp</td><td class="v-warn">1.2%</td><td>0.50%</td><td><span class="badge b-red">Spending surge</span></td></tr>
+        <tr><td class="yr">2022</td><td class="v-bad">60.5%</td><td class="v-bad">↑ +2.2pp</td><td class="v-bad">6.1%</td><td>1.25%</td><td><span class="badge b-red">Inflation peak</span></td></tr>
+        <tr><td class="yr">2023</td><td class="v-bad">62.3%</td><td class="v-bad">↑ +1.8pp</td><td class="v-warn">1.2%</td><td>2.50%</td><td><span class="badge b-amber">Rate hike cycle</span></td></tr>
+        <tr><td class="yr">2024</td><td class="v-bad">63.2%</td><td class="v-bad">↑ +0.9pp</td><td class="v-good">0.4%</td><td>2.50%</td><td><span class="badge b-amber">Deflation risk</span></td></tr>
+        <tr><td class="yr">2025*</td><td class="v-bad">64.8%</td><td class="v-bad">↑ +1.6pp</td><td class="v-warn">−0.1%</td><td>1.00%</td><td><span class="badge b-red">Rate cuts 4 ကြိမ်</span></td></tr>
+        <tr><td class="yr">2026*</td><td class="v-bad">66.8%</td><td class="v-bad">↑ +2pp</td><td class="v-warn">0.4%</td><td>~0.75–1%</td><td><span class="badge b-red">Debt ↑ ဆက်ကျ</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="macro-insight">
+    <b>Public Debt အန္တရာယ်:</b> 2018 ခုနှစ်တွင် 41.8% ရှိသော public debt သည် 2025 တွင် 64.8% ဆီ ရောက်လာ — COVID stimulus + ကြီးထွားမှု နှေးကွေးမှုကြောင့်။ IMF modeling အရ <b>80% limit ကျော်ပါက "explosive path" ဖြစ်နိုင်</b>ဟု သတိပေးထားသည်။ Bank of Thailand policy rate ကို 2024 Oct မှ 2026 Feb ထိ 2.5% → 1.0% ဆင်းကြိုးပမ်းခဲ့သည်။
+  </div>
+  <p class="src">အရင်းအမြစ် — IMF Article IV (Feb 2026) · OECD Thailand 2025 · Bank of Thailand</p>
+</div>
+
+<!-- TABLE 6: GDP COMPONENTS -->
+<div class="section-block">
+  <div class="sec-header">
+    <div class="sec-icon" style="background:#EEEDFE;">🔢</div>
+    <div>
+      <div class="sec-title">ဇယား ၆ — GDP ပေါင်းချုပ် (C + I + G + NX)</div>
+      <div class="sec-sub">GDP component growth contributions — IMF / NESDC မှ</div>
+    </div>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>နှစ်</th>
+          <th>Real GDP Growth %</th>
+          <th>Private Consumption (C)</th>
+          <th>Gov. Spending (G)</th>
+          <th>Investment (I) signal</th>
+          <th>Nominal GDP (US$B)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="yr">2019</td><td class="v-warn">2.1%</td><td class="v-good">Positive</td><td class="v-good">+ve</td><td class="v-good">Stable</td><td>544.0</td></tr>
+        <tr><td class="yr">2020</td><td class="v-bad">−6.1%</td><td class="v-bad">Collapse</td><td class="v-good">Expanded</td><td class="v-bad">Negative FDI</td><td>500.5</td></tr>
+        <tr><td class="yr">2021</td><td class="v-warn">1.5%</td><td class="v-warn">Weak</td><td class="v-good">+ve</td><td class="v-good">FDI rebound</td><td>506.3</td></tr>
+        <tr><td class="yr">2022</td><td class="v-warn">2.6%</td><td class="v-good">Recovery</td><td class="v-warn">Mixed</td><td class="v-warn">FDI ↓ 31%</td><td>495.6</td></tr>
+        <tr><td class="yr">2023</td><td class="v-warn">2.0%</td><td class="v-warn">Moderate</td><td class="v-warn">Budget delay</td><td class="v-bad">FDI ↓ 59%</td><td>515.0</td></tr>
+        <tr><td class="yr">2024</td><td class="v-warn">2.5%</td><td class="v-good">+2.5% contrib</td><td class="v-good">+ve</td><td class="v-warn">Shrinking pvt</td><td>527.1</td></tr>
+        <tr><td class="yr">2025*</td><td class="v-warn">2.1%</td><td class="v-bad">+1.5% (drop)</td><td class="v-good">+ve</td><td class="v-bad">Pvt inv shrink</td><td>553.9</td></tr>
+        <tr><td class="yr">2026*</td><td class="v-bad">1.6%</td><td class="v-bad">Weak</td><td class="v-warn">Constrained</td><td class="v-bad">Uncertain</td><td>580.2</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="macro-insight">
+    <b>2024–2025 ၏ Critical Pattern:</b> Private consumption သည် 2024 GDP growth ၏ ၁၀၀% နီးပါး ဆောင်ရွက်ခဲ့သည် (2.5% growth မှ consumption contribution 2.5pp)။ 2025 တွင် ဤ contribution 1.5pp ဆီ ကျ — tourism ကျဆင်းမှုနှင့် household debt burden ကြောင့်။ Private investment ဆက်လက် ကျဆင်းနေပြီး <b>Thailand "last growth engine" ဆုံးရှုံးနေသည်</b>ဟု Bangkok Post ညွှန်းဆို။
+  </div>
+  <p class="src">အရင်းအမြစ် — IMF Article IV 2026 · NESDC · OECD Economic Survey Thailand 2025 · Bangkok Post</p>
+</div>
+
+<!-- FINAL NOTE -->
+<div class="final-note">
+  <b>မှတ်ချက်များ:</b> * သတ်မှတ်ချက်များသည် IMF/OECD/World Bank projection ဖြစ်ပြီး realized history မဟုတ်ပါ။ 2025 data တချို့ preliminary estimate ဖြစ်သည်။ FDI figures are World Bank/UNCTAD net inflows (equity flows)。 BOI applications figures are promotional value (gross), actual inflows နှင့် ကွာနိုင်သည်။
+</div>
+
+<!-- ════════════════════════════════════════
+     CHART.JS + DASHBOARD SCRIPTS
+     ════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+const gc = isDark?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.07)';
+const tc = isDark?'#9c9a92':'#73726c';
+const YEARS=[2018,2019,2020,2021,2022,2023,2024,2025,2026];
+let curY=2024, curComp='ALL';
+const charts={};
+const D={
+  TH:{
+    C:[54.0,53.5,52.0,51.0,52.5,52.0,55.0,53.0,52.0],
+    I:[24.3,24.1,21.8,22.4,27.8,22.6,21.6,21.2,21.0],
+    G:[17.2,16.8,18.5,17.8,17.5,17.2,17.0,17.5,17.5],
+    NX:[4.5,5.6,7.7,-1.2,-2.8,8.2,6.4,8.3,9.5],
+    C_food:[12.0,11.8,12.5,12.0,13.0,12.5,13.5,13.0,12.8],
+    C_housing:[9.0,9.0,9.5,9.5,9.5,9.0,9.5,9.5,9.5],
+    C_transport:[5.5,5.5,4.5,4.5,5.0,5.0,5.5,5.5,5.5],
+    C_health:[3.5,3.5,4.0,4.0,4.0,4.0,4.0,4.0,4.0],
+    C_other:[14.5,14.2,12.5,12.0,12.5,12.5,13.5,12.0,11.2],
+    C_npish:[2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5],
+    I_private:[15.5,14.8,12.5,13.0,16.0,13.5,12.8,12.0,11.8],
+    I_public:[4.5,4.5,5.2,5.2,5.5,5.2,5.0,5.2,5.2],
+    I_fdi:[2.0,1.5,0.5,2.0,2.5,1.8,1.8,1.6,1.6],
+    I_mach:[9.5,9.2,8.0,8.5,11.0,8.5,8.0,7.8,7.5],
+    I_construct:[10.5,10.5,9.5,9.5,11.5,9.5,9.0,9.0,9.0],
+    I_intangible:[1.5,1.5,1.5,1.8,2.0,2.0,2.0,2.0,2.0],
+    I_inventory:[2.8,2.9,2.8,3.1,3.3,2.6,2.6,2.4,2.5],
+    G_social:[6.0,5.8,7.5,7.0,7.0,6.8,6.8,7.0,7.0],
+    G_education:[3.5,3.5,3.8,3.5,3.5,3.5,3.5,3.5,3.5],
+    G_health:[2.5,2.5,3.0,2.8,2.8,2.8,2.8,2.8,2.8],
+    G_defense:[1.3,1.3,1.3,1.3,1.3,1.2,1.2,1.2,1.2],
+    G_infra:[2.5,2.5,2.3,2.3,2.1,2.1,2.0,2.3,2.3],
+    G_admin:[1.4,1.2,0.6,0.9,0.8,0.8,0.7,0.7,0.7],
+    X_goods:[48.0,46.0,44.0,48.0,55.0,51.0,54.0,52.0,51.0],
+    X_services:[8.0,8.5,2.5,3.5,6.5,9.0,10.0,9.5,9.5],
+    M_goods:[44.0,42.0,34.0,44.0,51.0,42.0,48.0,44.0,43.0],
+    M_services:[7.5,7.5,4.3,8.5,14.0,9.8,10.0,9.2,8.0],
+  },
+  VN:{
+    C:[68.0,67.5,64.0,62.0,60.0,60.5,61.0,62.0,62.5],
+    I:[26.5,27.0,28.0,29.0,29.5,30.0,30.2,30.5,30.8],
+    G:[6.5,6.3,6.5,6.8,7.0,6.8,6.5,6.8,7.0],
+    NX:[-1.0,-0.8,1.5,2.2,3.5,2.7,2.3,0.7,-0.3],
+    C_food:[22.0,21.5,22.0,21.0,19.5,19.5,19.0,19.0,18.5],
+    C_housing:[8.5,8.5,8.5,8.5,8.5,8.5,9.0,9.0,9.0],
+    C_transport:[5.0,5.0,4.0,4.0,4.5,5.0,5.0,5.0,5.0],
+    C_health:[2.5,2.5,2.5,2.5,2.5,3.0,3.0,3.0,3.0],
+    C_other:[26.0,26.0,23.5,23.0,21.5,21.5,21.5,22.0,22.5],
+    C_npish:[1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5],
+    I_private:[14.0,14.5,14.5,15.0,15.5,15.5,15.8,16.0,16.0],
+    I_public:[7.0,7.0,7.5,7.5,7.5,7.8,7.5,7.5,7.8],
+    I_fdi:[6.0,6.0,6.5,7.0,7.5,7.5,8.0,8.0,8.0],
+    I_mach:[11.0,11.5,12.0,12.5,12.5,12.5,12.8,13.0,13.0],
+    I_construct:[10.5,10.5,10.5,11.0,11.5,12.0,12.0,12.0,12.2],
+    I_intangible:[0.8,0.8,0.8,0.8,1.0,1.0,1.2,1.2,1.2],
+    I_inventory:[4.2,4.2,4.7,4.7,4.5,5.5,4.2,4.3,4.4],
+    G_social:[1.5,1.5,1.5,1.5,1.8,1.8,1.8,1.8,1.8],
+    G_education:[1.5,1.5,1.5,1.6,1.6,1.5,1.5,1.5,1.5],
+    G_health:[1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0],
+    G_defense:[2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0],
+    G_infra:[0.2,0.0,0.2,0.4,0.3,0.2,0.0,0.2,0.3],
+    G_admin:[0.3,0.3,0.3,0.3,0.3,0.3,0.2,0.3,0.4],
+    X_goods:[86.0,85.0,80.0,88.0,88.0,78.0,77.0,75.0,72.0],
+    X_services:[5.0,5.5,4.0,4.5,5.5,7.0,8.5,8.0,8.0],
+    M_goods:[82.0,81.0,72.5,81.0,82.0,72.0,73.0,73.0,71.0],
+    M_services:[10.0,10.3,10.0,9.3,8.0,10.3,10.2,9.3,9.3],
+  }
+};
+function yi(){return YEARS.indexOf(curY);}
+function v(country,key){return +D[country][key][yi()].toFixed(1);}
+const PIE_BORDER=isDark?'#1a1a1a':'#ffffff';
+function mkPie(id,labels,vals,colors){
+  if(charts[id]){charts[id].destroy();}
+  charts[id]=new Chart(document.getElementById(id),{
+    type:'doughnut',
+    data:{labels,datasets:[{data:vals,backgroundColor:colors.map(c=>c+'CC'),borderColor:PIE_BORDER,borderWidth:2,hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'50%',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw.toFixed(1)}% of GDP`}}}
+    }
+  });
+}
+function mkBar(id,labels,thVals,vnVals,colors){
+  if(charts[id]){charts[id].destroy();}
+  charts[id]=new Chart(document.getElementById(id),{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'Thailand',data:thVals,backgroundColor:colors.map(c=>c+'AA'),borderRadius:3,barThickness:14},
+      {label:'Vietnam',data:vnVals,backgroundColor:colors.map(c=>c+'55'),borderRadius:3,barThickness:14,borderColor:colors.map(c=>c+'BB'),borderWidth:1}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw.toFixed(1)}% of GDP`}}},
+      scales:{
+        x:{grid:{display:false},ticks:{color:tc,font:{size:10},maxRotation:30}},
+        y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>v+'%'},min:0}
+      }
+    }
+  });
+}
+function buildLeg(id,labels,vals,colors){
+  document.getElementById(id).innerHTML=labels.map((l,i)=>
+    `<span class="li"><span class="lsq" style="background:${colors[i]}"></span>${l}: <b>${vals[i].toFixed(1)}%</b></span>`
+  ).join('');
+}
+function sc(id,items){
+  document.getElementById(id).innerHTML=items.map(it=>
+    `<div class="sc"><div class="sl">${it.l}</div><div class="sv" style="color:${it.c||'var(--color-text-primary)'}">${it.v}</div><div class="ss">${it.s||''}</div></div>`
+  ).join('');
+}
+function renderALL(){
+  const thC=v('TH','C'),thI=v('TH','I'),thG=v('TH','G'),thNX=v('TH','NX');
+  const vnC=v('VN','C'),vnI=v('VN','I'),vnG=v('VN','G'),vnNX=v('VN','NX');
+  const CLRS=['#185FA5','#1D9E75','#EF9F27','#D85A30'];
+  const LABS=['Consumption (C)','Investment (I)','Gov. Spending (G)','Net Exports (NX)'];
+  document.getElementById('thSub').textContent=`C ${thC}% · I ${thI}% · G ${thG}% · NX ${thNX>0?'+':''}${thNX}%`;
+  document.getElementById('vnSub').textContent=`C ${vnC}% · I ${vnI}% · G ${vnG}% · NX ${vnNX>0?'+':''}${vnNX}%`;
+  mkPie('pieTH2',LABS,[thC,thI,thG,Math.abs(thNX)],CLRS);
+  mkPie('pieVN2',LABS,[vnC,vnI,vnG,Math.abs(vnNX)],CLRS);
+  buildLeg('legTH',LABS,[thC,thI,thG,thNX],CLRS);
+  buildLeg('legVN',LABS,[vnC,vnI,vnG,vnNX],CLRS);
+  if(charts['barComp']){charts['barComp'].destroy();}
+  charts['barComp']=new Chart(document.getElementById('barComp'),{
+    type:'bar',
+    data:{labels:LABS,datasets:[
+      {label:'Thailand',data:[thC,thI,thG,thNX],backgroundColor:CLRS.map(c=>c+'AA'),borderRadius:4,barThickness:22},
+      {label:'Vietnam',data:[vnC,vnI,vnG,vnNX],backgroundColor:CLRS.map(c=>c+'44'),borderRadius:4,barThickness:22,borderColor:CLRS.map(c=>c+'BB'),borderWidth:1}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw.toFixed(1)}% of GDP`}}},
+      scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:11}}},y:{grid:{color:gc},ticks:{color:tc,font:{size:11},callback:v=>v+'%'}}}
+    }
+  });
+  sc('statALL',[
+    {l:'TH Consumption',v:`${thC}%`,s:'of GDP',c:'#185FA5'},
+    {l:'VN Consumption',v:`${vnC}%`,s:'of GDP',c:'#1D7874'},
+    {l:'TH Investment',v:`${thI}%`,s:'of GDP',c:'#185FA5'},
+    {l:'VN Investment',v:`${vnI}%`,s:'of GDP',c:'#1D7874'},
+  ]);
+}
+function renderC(){
+  const LABS=['Food & drink','Housing','Transport','Health','Other HH','NPISHs'];
+  const CLRS=['#185FA5','#378ADD','#85B7EB','#0C447C','#B5D4F4','#042C53'];
+  const thV=[v('TH','C_food'),v('TH','C_housing'),v('TH','C_transport'),v('TH','C_health'),v('TH','C_other'),v('TH','C_npish')];
+  const vnV=[v('VN','C_food'),v('VN','C_housing'),v('VN','C_transport'),v('VN','C_health'),v('VN','C_other'),v('VN','C_npish')];
+  mkPie('pieTHC',LABS,thV,CLRS); mkPie('pieVNC',LABS,vnV,CLRS);
+  buildLeg('legTHC',LABS,thV,CLRS); buildLeg('legVNC',LABS,vnV,CLRS);
+  mkBar('barC',LABS,thV,vnV,CLRS);
+  sc('statC',[
+    {l:'TH total C',v:`${v('TH','C')}%`,s:'of GDP',c:'#185FA5'},
+    {l:'VN total C',v:`${v('VN','C')}%`,s:'of GDP',c:'#1D7874'},
+    {l:'TH Food share',v:`${v('TH','C_food')}%`,s:'of GDP',c:'#185FA5'},
+    {l:'VN Food share',v:`${v('VN','C_food')}%`,s:'of GDP',c:'#1D7874'},
+  ]);
+  document.getElementById('insightC').innerHTML=`<b>Consumption gap explained:</b> Vietnam C/GDP (${v('VN','C')}%) vs Thailand (${v('TH','C')}%). Vietnam food share (${v('VN','C_food')}% GDP) &gt; Thailand (${v('TH','C_food')}%) — Engel's Law: lower income → higher food share. Thailand has higher housing, health, transport — higher-income consumption basket. Household debt ~87% GDP constrains Thailand's effective consumption power.`;
+}
+function renderI(){
+  const LABS=['Private invest.','Public invest.','FDI','Machinery','Construction','Intangibles','Inventories'];
+  const CLRS=['#1D9E75','#5DCAA5','#0F6E56','#9FE1CB','#085041','#E1F5EE','#04342C'];
+  const thV=[v('TH','I_private'),v('TH','I_public'),v('TH','I_fdi'),v('TH','I_mach'),v('TH','I_construct'),v('TH','I_intangible'),v('TH','I_inventory')];
+  const vnV=[v('VN','I_private'),v('VN','I_public'),v('VN','I_fdi'),v('VN','I_mach'),v('VN','I_construct'),v('VN','I_intangible'),v('VN','I_inventory')];
+  mkPie('pieTHI',LABS,thV,CLRS); mkPie('pieVNI',LABS,vnV,CLRS);
+  buildLeg('legTHI',LABS,thV,CLRS); buildLeg('legVNI',LABS,vnV,CLRS);
+  mkBar('barI',LABS,thV,vnV,CLRS);
+  sc('statI',[
+    {l:'TH total I',v:`${v('TH','I')}%`,s:'of GDP',c:'#185FA5'},
+    {l:'VN total I',v:`${v('VN','I')}%`,s:'of GDP',c:'#1D7874'},
+    {l:'TH FDI share',v:`${v('TH','I_fdi')}%`,s:'of GDP',c:'#185FA5'},
+    {l:'VN FDI share',v:`${v('VN','I_fdi')}%`,s:'of GDP',c:'#1D7874'},
+  ]);
+  document.getElementById('insightI').innerHTML=`<b>Investment: the core of the growth gap.</b> Vietnam total I = ${v('VN','I')}% vs Thailand ${v('TH','I')}% — <b>${(v('VN','I')-v('TH','I')).toFixed(1)}pp gap</b>. Vietnam FDI share (${v('VN','I_fdi')}% GDP) is ${(v('VN','I_fdi')/v('TH','I_fdi')).toFixed(1)}x Thailand's (${v('TH','I_fdi')}% GDP). Samsung, Intel, LG, Apple supply chain investment builds high-tech manufacturing export capability. Vietnam public investment (${v('VN','I_public')}%) is infrastructure-heavy with large multiplier effect.`;
+}
+function renderG(){
+  const LABS=['Social protection','Education','Health','Defense','Infrastructure','Admin'];
+  const CLRS=['#EF9F27','#FAC775','#BA7517','#633806','#412402','#D3D1C7'];
+  const thV=[v('TH','G_social'),v('TH','G_education'),v('TH','G_health'),v('TH','G_defense'),v('TH','G_infra'),v('TH','G_admin')];
+  const vnV=[v('VN','G_social'),v('VN','G_education'),v('VN','G_health'),v('VN','G_defense'),v('VN','G_infra'),v('VN','G_admin')];
+  mkPie('pieTHG',LABS,thV,CLRS); mkPie('pieVNG',LABS,vnV,CLRS);
+  buildLeg('legTHG',LABS,thV,CLRS); buildLeg('legVNG',LABS,vnV,CLRS);
+  mkBar('barG',LABS,thV,vnV,CLRS);
+  sc('statG',[
+    {l:'TH total G',v:`${v('TH','G')}%`,s:'of GDP',c:'#185FA5'},
+    {l:'VN total G',v:`${v('VN','G')}%`,s:'of GDP',c:'#1D7874'},
+    {l:'TH social prot.',v:`${v('TH','G_social')}%`,s:'of GDP',c:'#185FA5'},
+    {l:'VN social prot.',v:`${v('VN','G_social')}%`,s:'of GDP',c:'#1D7874'},
+  ]);
+  document.getElementById('insightG').innerHTML=`<b>Government spending: purpose divergence.</b> Thailand G = ${v('TH','G')}% GDP — social protection (${v('TH','G_social')}%) and health/education (${(v('TH','G_education')+v('TH','G_health')).toFixed(1)}%) dominate — mandatory welfare from aging population. Vietnam G = ${v('VN','G')}% GDP — higher defense (${v('VN','G_defense')}%), lower social protection (${v('VN','G_social')}%) — wider fiscal space enables higher investment rates.`;
+}
+function renderNX(){
+  const LABS=['Goods exports','Services exports','Goods imports','Services imports'];
+  const CLRS=['#D85A30','#F0997B','#A32D2D','#F7C1C1'];
+  const thV=[v('TH','X_goods'),v('TH','X_services'),v('TH','M_goods'),v('TH','M_services')];
+  const vnV=[v('VN','X_goods'),v('VN','X_services'),v('VN','M_goods'),v('VN','M_services')];
+  mkPie('pieTHNX',LABS,thV,CLRS); mkPie('pieVNNX',LABS,vnV,CLRS);
+  buildLeg('legTHNX',LABS,thV,CLRS); buildLeg('legVNNX',LABS,vnV,CLRS);
+  mkBar('barNX',LABS,thV,vnV,CLRS);
+  const thNX=v('TH','NX'), vnNX=v('VN','NX');
+  sc('statNX',[
+    {l:'TH Net Exports',v:`${thNX>0?'+':''}${thNX}%`,s:'of GDP',c:thNX>=0?'#1D7874':'#E24B4A'},
+    {l:'VN Net Exports',v:`${vnNX>0?'+':''}${vnNX}%`,s:'of GDP',c:vnNX>=0?'#1D7874':'#E24B4A'},
+    {l:'TH goods exports',v:`${v('TH','X_goods')}%`,s:'of GDP',c:'#185FA5'},
+    {l:'VN goods exports',v:`${v('VN','X_goods')}%`,s:'of GDP',c:'#1D7874'},
+  ]);
+  document.getElementById('insightNX').innerHTML=`<b>Trade structure: a regional divergence.</b> Vietnam goods exports (${v('VN','X_goods')}% GDP) exceeds Thailand (${v('TH','X_goods')}% GDP) — manufacturing-for-export model (Samsung phones, electronics globally). Thailand services exports (${v('TH','X_services')}% GDP) are tourism-heavy, hence the −78% collapse in 2020. Vietnam services (${v('VN','X_services')}%) are lower — less tourism-dependent, so COVID-resilient.`;
+}
+function renderCurrent(){
+  if(curComp==='ALL') renderALL();
+  else if(curComp==='C') renderC();
+  else if(curComp==='I') renderI();
+  else if(curComp==='G') renderG();
+  else if(curComp==='NX') renderNX();
+}
+function setComp(c,btn){
+  curComp=c;
+  document.querySelectorAll('.comp-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p'+c).classList.add('active');
+  renderCurrent();
+}
+const yrRow=document.getElementById('yrRow');
+YEARS.forEach(y=>{
+  const b=document.createElement('button');
+  b.className='yr-btn'+(y===2024?' active':'');
+  b.textContent=y>=2025?y+'*':String(y);
+  b.onclick=()=>{
+    curY=y;
+    document.querySelectorAll('.yr-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderCurrent();
+  };
+  yrRow.appendChild(b);
+});
+renderALL();
+</script>
+</body>
+</html>
